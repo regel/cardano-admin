@@ -20,11 +20,13 @@ RUN curl -fsSL https://apt.releases.hashicorp.com/gpg | apt-key add - \
   && rm -rf /var/lib/apt/lists/*
 
 ENV PATH="$PATH:/opt"
-
+ENV CARDANO_CLI="/opt/cardano-cli"
 # update permissions & change user to not run as root
 WORKDIR /app
 
 COPY ./scripts /app
+# To load the common bash functions in a script later on
+COPY ./scripts/cardano_functions.sh /usr/local/lib/cardano_functions.sh
 
 RUN chgrp -R 0 /app && chmod -R g=u /app
 USER 1001
